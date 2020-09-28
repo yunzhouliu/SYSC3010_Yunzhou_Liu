@@ -42,10 +42,12 @@ def Y():
     ]
     return logo
 
-
+s.low_light = True
 s = SenseHat()
-event = s.stick.wait_for_event()
-s.set_pixels(Y)
-event = s.stick.wait_for_event()
-s.set_pixels(L)
+while True: 
+    event = s.stick.wait_for_event()
+    s.set_pixels(Y)
+    sleep(0.5)
+    event = s.stick.wait_for_event()
+    s.set_pixels(L)
     
