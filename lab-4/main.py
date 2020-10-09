@@ -14,53 +14,7 @@ white = (255,255,255)
 nothing = (0,0,0)
 pink = (255,105, 180)
 
-def trinket_logo():
-    G = green
-    Y = yellow
-    B = blue
-    O = nothing
-    logo = [
-    O, O, O, O, O, O, O, O,
-    O, Y, Y, Y, B, G, O, O,
-    Y, Y, Y, Y, Y, B, G, O,
-    Y, Y, Y, Y, Y, B, G, O,
-    Y, Y, Y, Y, Y, B, G, O,
-    Y, Y, Y, Y, Y, B, G, O,
-    O, Y, Y, Y, B, G, O, O,
-    O, O, O, O, O, O, O, O,
-    ]
-    return logo
 
-def raspi_logo():
-    G = green
-    R = red
-    O = nothing
-    logo = [
-    O, G, G, O, O, G, G, O, 
-    O, O, G, G, G, G, O, O,
-    O, O, R, R, R, R, O, O, 
-    O, R, R, R, R, R, R, O,
-    R, R, R, R, R, R, R, R,
-    R, R, R, R, R, R, R, R,
-    O, R, R, R, R, R, R, O,
-    O, O, R, R, R, R, O, O,
-    ]
-    return logo
-
-def plus():
-    W = white
-    O = nothing
-    logo = [
-    O, O, O, O, O, O, O, O, 
-    O, O, O, W, W, O, O, O,
-    O, O, O, W, W, O, O, O, 
-    O, W, W, W, W, W, W, O,
-    O, W, W, W, W, W, W, O,
-    O, O, O, W, W, O, O, O,
-    O, O, O, W, W, O, O, O,
-    O, O, O, O, O, O, O, O,
-    ]
-    return logo
 
 def equals():
     W = white
@@ -92,8 +46,6 @@ def heart():
     ]
     return logo
 
-images = [trinket_logo, trinket_logo, plus, raspi_logo, raspi_logo, equals, heart, heart]
-count = 0
 
 x = 3
 y = 3
@@ -114,21 +66,19 @@ def pushed_right(event):
         x = clamp(x + 1)
 
 
-sense.stick.direction_left = pushed_left
-sense.stick.direction_right = pushed_right
+s.stick.direction_left = pushed_left
+s.stick.direction_right = pushed_right
 
 pause()
 
 while True: 
-
-    event = s.stick.wait_for_event()
-    sense.stick.direction_left = pushed_left
-    s.set_pixels(images[count % len(images)]())
-    count += 1
-    time.sleep(5)
-    event = s.stick.wait_for_event()
-    sense.stick.direction_left = pushed_right
-    s.set_pixels(images[count % len(images)]())
-    count += 1
-    time.sleep(3)
-  
+    for event in s.event.get():
+        if event.type == pushed_right:
+            s.set_pixels(heart)
+        time.sleep(5)
+        
+        if event.type == pushed_left:
+            s.set_pixels(equals)
+        time.sleep(3)
+   
+   
